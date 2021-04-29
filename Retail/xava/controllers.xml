@@ -1,0 +1,90 @@
+<?xml version = "1.0" encoding = "ISO-8859-1"?>
+
+<!DOCTYPE controllers SYSTEM "dtds/controllers.dtd">
+
+<controllers>
+    
+    <!-- Environment variable:
+    <env-var name="Retail_DEFAULT_YEAR" value="2015"/> 
+    -->
+    
+    <!-- Session object:
+    <object name="Retail_activeYear" class="java.lang.Integer" value="2015" 
+    	    scope="global"/>    
+    -->
+    
+    <!-- Controller:
+    <controller name="Teacher">
+    	<extends controller="Typical"/>
+    	<action name="new" icon="library-plus" keystroke="Control N"
+        	class="actions.CreateTeacher">
+    	</action>
+	</controller>    
+    -->
+    
+     <env-var
+        name="XAVA_SEARCH_ACTION"
+        value="Retail.searchExcludingDeleted" />
+    
+    <controller name="Retail"> 
+ 
+        <extends controller="Typical"/> 
+ 
+        <action name="delete"
+            mode="detail" confirm="true"
+            class="com.yourcompany.retail.actions.InvoicingDeleteAction"
+            icon="delete"
+            available-on-new="false"
+            keystroke="Control D"/>
+            
+          
+            
+	    <action name="searchExcludingDeleted"
+	        hidden="true"
+	        class="com.yourcompany.retail.actions.SearchExcludingDeletedAction"/>
+	        
+	    <action name="deleteSelected" mode="list" confirm="true"
+		    process-selected-items="true"
+		    icon="delete"			 
+		    class="com.yourcompany.retail.actions.InvoicingDeleteSelectedAction"
+		    keystroke="Control D"/>				
+		
+		<action name="deleteRow" mode="NONE" confirm="true"
+		    class="com.yourcompany.retail.actions.InvoicingDeleteSelectedAction"
+		    icon="delete"
+		    in-each-row="true"/>
+	                     
+    </controller>
+    
+    <controller name="Trash">
+	    <action name="restore" mode="list"
+	        class="com.yourcompany.retail.actions.InvoicingDeleteSelectedAction">
+	        <set property="restore" value="true"/> 
+	    </action>
+	</controller>
+	
+	<controller name="Order">
+	    <extends controller="Retail"/> 
+	    
+	    <action name="createInvoice" mode="detail"
+	        class="com.yourcompany.retail.actions.CreateInvoiceFromOrderAction"/>
+	        
+	    
+	    <action name="createInvoiceFromSelectedOrders"
+	        mode="list"
+	        class="com.yourcompany.retail.actions.CreateInvoiceFromSelectedOrdersAction"/>
+	    	    
+	</controller>
+	
+	<controller name="InvoiceEdition">
+
+	    <action name="save"
+	        class="com.yourcompany.retail.actions.SaveInvoiceAction"
+	        keystroke="Control S"/>
+			
+	    <action name="close"
+	        class="org.openxava.actions.CancelAction"/>
+			
+	</controller>
+    
+</controllers>
